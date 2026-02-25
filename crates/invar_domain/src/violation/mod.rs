@@ -1,6 +1,6 @@
-mod value_object;
-mod error;
-mod display;
+pub mod value_object;
+pub mod error;
+pub mod display;
 
 use std::collections::BTreeMap;
 use crate::invariant::value_object::id::InvariantId;
