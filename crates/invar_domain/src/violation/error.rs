@@ -22,20 +22,14 @@ impl ViolationError {
         Self::EmptyReason { invariant_id }
     }
 
-    pub fn missing_metric(
-        invariant_id: InvariantId,
-        name: impl Into<String>,
-    ) -> Self {
+    pub fn missing_metric(invariant_id: InvariantId, name: impl Into<String>) -> Self {
         Self::MissingMetric {
             invariant_id,
             name: name.into(),
         }
     }
 
-    pub fn duplicate_metric(
-        invariant_id: InvariantId,
-        name: impl Into<String>,
-    ) -> Self {
+    pub fn duplicate_metric(invariant_id: InvariantId, name: impl Into<String>) -> Self {
         Self::DuplicateMetric {
             invariant_id,
             name: name.into(),

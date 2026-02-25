@@ -7,9 +7,7 @@ impl fmt::Display for Violation {
         writeln!(
             f,
             "[{}] invariant '{:?}' failed on {}",
-            self.severity,
-            self.invariant_id,
-            self.scope
+            self.severity, self.invariant_id, self.scope
         )?;
 
         writeln!(f, "  ↳ {}", self.reason)?;

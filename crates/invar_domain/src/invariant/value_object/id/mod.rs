@@ -14,7 +14,10 @@ impl InvariantId {
             return Err(InvariantIdError::Empty);
         }
 
-        if !value.chars().all(|c| c.is_alphanumeric() || c == '_' || c == '-') {
+        if !value
+            .chars()
+            .all(|c| c.is_alphanumeric() || c == '_' || c == '-')
+        {
             return Err(InvariantIdError::InvalidFormat { value });
         }
 

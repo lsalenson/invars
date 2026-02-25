@@ -14,7 +14,10 @@ impl InvariantName {
             return Err(InvariantNameError::Empty);
         }
 
-        if !raw.chars().all(|c| c.is_ascii_lowercase() || c == '_' || c.is_ascii_digit()) {
+        if !raw
+            .chars()
+            .all(|c| c.is_ascii_lowercase() || c == '_' || c.is_ascii_digit())
+        {
             return Err(InvariantNameError::InvalidFormat { value: raw });
         }
 

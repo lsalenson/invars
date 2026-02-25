@@ -1,13 +1,13 @@
-pub mod value_object;
-pub mod error;
 pub mod display;
+pub mod error;
+pub mod value_object;
 
-use std::collections::BTreeMap;
 use crate::invariant::value_object::id::InvariantId;
 use crate::scope::Scope;
 use crate::severity::Severity;
 use crate::violation::error::{ViolationError, ViolationResult};
 use crate::violation::value_object::metric_value::MetricValue;
+use std::collections::BTreeMap;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Violation {
@@ -37,9 +37,7 @@ impl Violation {
     }
     pub fn validate(&self) -> ViolationResult<()> {
         if self.reason.trim().is_empty() {
-            return Err(ViolationError::empty_reason(
-                self.invariant_id.clone(),
-            ));
+            return Err(ViolationError::empty_reason(self.invariant_id.clone()));
         }
         Ok(())
     }
@@ -67,18 +65,11 @@ impl Violation {
         &self.examples
     }
 
-    pub fn add_metric(
-        &mut self,
-        name: impl Into<String>,
-        value: MetricValue,
-    ) {
+    pub fn add_metric(&mut self, name: impl Into<String>, value: MetricValue) {
         self.metrics.insert(name.into(), value);
     }
 
-    pub fn add_example(
-        &mut self,
-        example: impl Into<String>,
-    ) {
+    pub fn add_example(&mut self, example: impl Into<String>) {
         self.examples.push(example.into());
     }
 
@@ -94,19 +85,12 @@ impl Violation {
         self.metrics.get(name)
     }
 
-    pub fn with_metric(
-        mut self,
-        name: impl Into<String>,
-        value: MetricValue,
-    ) -> Self {
+    pub fn with_metric(mut self, name: impl Into<String>, value: MetricValue) -> Self {
         self.metrics.insert(name.into(), value);
         self
     }
 
-    pub fn with_example(
-        mut self,
-        example: impl Into<String>,
-    ) -> Self {
+    pub fn with_example(mut self, example: impl Into<String>) -> Self {
         self.examples.push(example.into());
         self
     }

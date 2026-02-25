@@ -1,6 +1,5 @@
-mod error;
 mod display;
-
+mod error;
 
 use crate::invariant::Invariant;
 use crate::invariant::error::InvariantError;
@@ -16,7 +15,9 @@ pub struct Spec {
 
 impl Spec {
     pub fn new() -> Self {
-        Self { invariants: Vec::new() }
+        Self {
+            invariants: Vec::new(),
+        }
     }
 
     pub fn from_invariants(invariants: Vec<Invariant>) -> Self {

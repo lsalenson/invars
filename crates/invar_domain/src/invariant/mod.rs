@@ -1,13 +1,13 @@
+mod display;
 pub mod error;
 pub mod value_object;
-mod display;
 
-use std::collections::BTreeMap;
 use crate::invariant::error::{InvariantError, InvariantResult};
 use crate::invariant::value_object::id::InvariantId;
 use crate::invariant::value_object::name::InvariantName;
 use crate::scope::Scope;
 use crate::severity::Severity;
+use std::collections::BTreeMap;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Invariant {
     id: InvariantId,
@@ -18,11 +18,7 @@ pub struct Invariant {
 }
 
 impl Invariant {
-    pub fn new(
-        id: InvariantId,
-        name: InvariantName,
-        scope: Scope,
-    ) -> Self {
+    pub fn new(id: InvariantId, name: InvariantName, scope: Scope) -> Self {
         Self {
             id,
             name,
@@ -75,8 +71,7 @@ impl Invariant {
     }
 
     pub fn require_param(&self, key: &str) -> InvariantResult<&str> {
-        self.param(key).ok_or_else(|| {
-            InvariantError::missing_param(self.id.as_str(), key)
-        })
+        self.param(key)
+            .ok_or_else(|| InvariantError::missing_param(self.id.as_str(), key))
     }
 }

@@ -2,10 +2,9 @@ mod display;
 mod error;
 pub use error::{ReportError, ReportResult};
 
-
-use std::cmp::PartialEq;
 use crate::severity::Severity;
 use crate::violation::Violation;
+use std::cmp::PartialEq;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Report {
@@ -98,7 +97,7 @@ impl Report {
     pub fn errors(&self) -> impl Iterator<Item = &Violation> {
         self.violations
             .iter()
-            .filter(|v| matches!(v.severity(), Severity::Error ))
+            .filter(|v| matches!(v.severity(), Severity::Error))
     }
 
     pub fn warnings(&self) -> impl Iterator<Item = &Violation> {

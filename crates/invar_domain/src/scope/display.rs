@@ -1,5 +1,5 @@
-use std::fmt;
 use crate::scope::Scope;
+use std::fmt;
 
 impl fmt::Display for Scope {
     fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {

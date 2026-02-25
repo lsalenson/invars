@@ -1,6 +1,6 @@
-use std::str::FromStr;
-use crate::invariant::value_object::id::error::InvariantIdError;
 use crate::invariant::value_object::id::InvariantId;
+use crate::invariant::value_object::id::error::InvariantIdError;
+use std::str::FromStr;
 
 impl FromStr for InvariantId {
     type Err = InvariantIdError;

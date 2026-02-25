@@ -1,12 +1,9 @@
-use std::{error::Error, fmt};
 use crate::violation::error::ViolationError;
+use std::{error::Error, fmt};
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum ReportError {
-    InvalidViolation {
-        index: usize,
-        error: ViolationError,
-    },
+    InvalidViolation { index: usize, error: ViolationError },
 }
 
 impl ReportError {

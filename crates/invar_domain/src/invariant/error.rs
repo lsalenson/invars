@@ -4,7 +4,9 @@ use crate::{scope::Scope, severity::Severity};
 
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum InvariantError {
-    InvalidId { id: String },
+    InvalidId {
+        id: String,
+    },
     MissingParam {
         invariant_id: String,
         key: String,
@@ -34,10 +36,7 @@ impl InvariantError {
         Self::InvalidId { id: id.into() }
     }
 
-    pub fn missing_param(
-        invariant_id: impl Into<String>,
-        key: impl Into<String>,
-    ) -> Self {
+    pub fn missing_param(invariant_id: impl Into<String>, key: impl Into<String>) -> Self {
         Self::MissingParam {
             invariant_id: invariant_id.into(),
             key: key.into(),

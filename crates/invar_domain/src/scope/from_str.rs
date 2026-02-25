@@ -1,6 +1,6 @@
-use std::str::FromStr;
-use crate::scope::error::ScopeError;
 use crate::scope::Scope;
+use crate::scope::error::ScopeError;
+use std::str::FromStr;
 
 impl FromStr for Scope {
     type Err = ScopeError;

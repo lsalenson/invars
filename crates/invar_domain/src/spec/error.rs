@@ -5,13 +5,8 @@ use crate::invariant::value_object::id::InvariantId;
 
 #[derive(Debug, Clone, PartialEq)]
 pub enum SpecError {
-    DuplicateInvariantId {
-        id: InvariantId,
-    },
-    InvalidInvariant {
-        index: usize,
-        error: InvariantError,
-    },
+    DuplicateInvariantId { id: InvariantId },
+    InvalidInvariant { index: usize, error: InvariantError },
 }
 
 impl SpecError {
