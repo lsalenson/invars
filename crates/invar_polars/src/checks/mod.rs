@@ -4,8 +4,8 @@ use invar_domain::invariant::Invariant;
 use invar_domain::violation::Violation;
 
 mod not_null;
-mod unique;
 mod row_count_min;
+mod unique;
 
 pub type CheckResult = Result<Vec<Violation>, Box<dyn std::error::Error>>;
 

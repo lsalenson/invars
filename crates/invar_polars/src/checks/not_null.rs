@@ -26,7 +26,7 @@ pub fn check(df: &DataFrame, inv: &Invariant) -> CheckResult {
         inv.scope().clone(),
         format!("found {null_count} null value(s)"),
     )
-        .with_metric("null_count", MetricValue::Int(null_count));
+    .with_metric("null_count", MetricValue::Int(null_count));
 
     Ok(vec![violation])
 }

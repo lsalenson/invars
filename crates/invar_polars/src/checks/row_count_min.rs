@@ -27,8 +27,8 @@ pub fn check(df: &DataFrame, inv: &Invariant) -> CheckResult {
         inv.scope().clone(),
         format!("row count {rows} is below minimum {min}"),
     )
-        .with_metric("row_count", MetricValue::Int(rows))
-        .with_metric("min", MetricValue::Int(min));
+    .with_metric("row_count", MetricValue::Int(rows))
+    .with_metric("min", MetricValue::Int(min));
 
     Ok(vec![violation])
 }

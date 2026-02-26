@@ -28,7 +28,7 @@ pub fn check(df: &DataFrame, inv: &Invariant) -> CheckResult {
         inv.scope().clone(),
         format!("found {duplicates} duplicate value(s)"),
     )
-        .with_metric("duplicate_count", MetricValue::Int(duplicates));
+    .with_metric("duplicate_count", MetricValue::Int(duplicates));
 
     Ok(vec![violation])
 }

@@ -1,3 +1,3 @@
+mod checks;
 mod engine;
 mod error;
-mod checks;
