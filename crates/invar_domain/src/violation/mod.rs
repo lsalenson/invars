@@ -45,8 +45,8 @@ impl Violation {
         &self.invariant_id
     }
 
-    pub fn severity(&self) -> &Severity {
-        &self.severity
+    pub fn severity(&self) -> Severity {
+        self.severity
     }
 
     pub fn scope(&self) -> &Scope {

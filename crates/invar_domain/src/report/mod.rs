@@ -68,13 +68,13 @@ impl Report {
     pub fn has_warnings(&self) -> bool {
         self.violations
             .iter()
-            .any(|v| v.severity() == &Severity::Warn)
+            .any(|v| v.severity() == Severity::Warn)
     }
 
     pub fn count_by_severity(&self, severity: Severity) -> usize {
         self.violations
             .iter()
-            .filter(|v| v.severity() == &severity)
+            .filter(|v| v.severity() == severity)
             .count()
     }
 
@@ -103,7 +103,7 @@ impl Report {
     pub fn warnings(&self) -> impl Iterator<Item = &Violation> {
         self.violations
             .iter()
-            .filter(|v| v.severity() == &Severity::Warn)
+            .filter(|v| v.severity() == Severity::Warn)
     }
 }
 
