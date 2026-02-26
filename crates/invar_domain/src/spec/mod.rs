@@ -24,9 +24,7 @@ impl Spec {
 
         for (index, invariant) in self.invariants.iter().enumerate() {
             if !seen.insert(invariant.id().clone()) {
-                return Err(SpecError::duplicate_invariant_id(
-                    invariant.id().clone(),
-                ));
+                return Err(SpecError::duplicate_invariant_id(invariant.id().clone()));
             }
         }
 
