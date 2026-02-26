@@ -1,6 +1,7 @@
 [package]
 name = "invar_application"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
 
 [dependencies]
+invar_domain = { path="../invar_domain" }
