@@ -1,5 +1,5 @@
 mod display;
-mod error;
+pub mod error;
 
 use crate::invariant::Invariant;
 use crate::invariant::error::InvariantError;
@@ -19,7 +19,19 @@ impl Spec {
             invariants: Vec::new(),
         }
     }
+    pub fn validate(&self) -> SpecResult<()> {
+        let mut seen: BTreeSet<InvariantId> = BTreeSet::new();
 
+        for (index, invariant) in self.invariants.iter().enumerate() {
+            if !seen.insert(invariant.id().clone()) {
+                return Err(SpecError::duplicate_invariant_id(
+                    invariant.id().clone(),
+                ));
+            }
+        }
+
+        Ok(())
+    }
     pub fn from_invariants(invariants: Vec<Invariant>) -> Self {
         Self { invariants }
     }
