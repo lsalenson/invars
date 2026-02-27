@@ -1,10 +1,9 @@
 use polars::prelude::*;
-
-use invars_application::{ApplicationError, ApplicationResult, Engine};
-use invars_domain::report::Report;
-use invars_domain::spec::Spec;
-
-use crate::checks;
+use crate::engine::Engine;
+use crate::error::{ApplicationError, ApplicationResult};
+use crate::infrastructure::polars::checks;
+use crate::report::Report;
+use crate::spec::Spec;
 
 pub struct PolarsEngine;
 

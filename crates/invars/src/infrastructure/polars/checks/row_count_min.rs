@@ -1,11 +1,10 @@
 use polars::prelude::*;
 
-use invars_domain::invariant::Invariant;
-use invars_domain::scope::Scope;
-use invars_domain::violation::Violation;
-use invars_domain::violation::value_object::metric_value::MetricValue;
-
-use crate::checks::CheckResult;
+use crate::infrastructure::polars::checks::CheckResult;
+use crate::invariant::Invariant;
+use crate::scope::Scope;
+use crate::violation::value_object::metric_value::MetricValue;
+use crate::violation::Violation;
 
 pub fn check(df: &DataFrame, inv: &Invariant) -> CheckResult {
     if !matches!(inv.scope(), Scope::Dataset) {

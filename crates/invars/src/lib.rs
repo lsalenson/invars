@@ -5,13 +5,31 @@
 //! It allows you to declare invariants on datasets and validate them
 //! against a Polars DataFrame or LazyFrame.
 
-pub use invars_domain::*;
-pub use invars_polars::*;
+mod application;
+mod domain;
+
+#[cfg(feature = "polars")]
+pub mod infrastructure;
+#[cfg(feature = "polars")]
+pub use polars;
+
+pub use crate::domain::*;
+pub use crate::application::*;
 
 pub mod prelude {
-    pub use invars_domain::{invariant::Invariant, scope::Scope, severity::Severity, spec::Spec};
+    pub use crate::domain::{
+        invariant::Invariant,
+        invariant::value_object::{ 
+            id::InvariantId,
+            name::InvariantName
+        },
+        scope::Scope,
+        severity::Severity,
+        spec::Spec,
+    };
 
-    pub use invars_application::RunSpec;
+    pub use crate::use_case::RunSpec;
 
-    pub use invars_polars::PolarsEngine;
+    #[cfg(feature = "polars")]
+    pub use crate::infrastructure::polars::PolarsEngine;
 }

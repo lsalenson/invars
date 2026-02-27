@@ -1,7 +1,6 @@
 use std::{error::Error, fmt};
-
-use invars_domain::report::error::ReportError;
-use invars_domain::spec::error::SpecError;
+use crate::report::ReportError;
+use crate::spec::error::SpecError;
 
 #[derive(Debug)]
 pub enum ApplicationError {

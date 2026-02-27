@@ -1,17 +1,16 @@
 [package]
 name = "invars"
 version = "0.0.1"
-license = "MIT"
 publish = true
+license = { workspace = true }
 authors = { workspace = true }
 edition = { workspace = true }
 repository = { workspace = true }
-
-[dependencies]
-invars_domain = { workspace = true }
-invars_application = { workspace = true }
-invars_polars = { workspace = true, optional = true }
+description = { workspace = true }
 
 [features]
-default = ["polars"]
-polars = ["invars_polars"]
+default = []
+polars = ["dep:polars"]
+
+[dependencies]
+polars = { version = "0.53", features = ["lazy"], optional = true }

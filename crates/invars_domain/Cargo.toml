@@ -1,8 +1,0 @@
-[package]
-name = "invars_domain"
-version = "0.0.1"
-publish = false
-license = "MIT"
-authors = { workspace = true }
-edition = { workspace = true }
-repository = { workspace = true }

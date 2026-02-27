@@ -1093,28 +1093,6 @@ dependencies = [
 name = "invars"
 version = "0.0.1"
 dependencies = [
- "invars_application",
- "invars_domain",
- "invars_polars",
-]
-
-[[package]]
-name = "invars_application"
-version = "0.0.1"
-dependencies = [
- "invars_domain",
-]
-
-[[package]]
-name = "invars_domain"
-version = "0.0.1"
-
-[[package]]
-name = "invars_polars"
-version = "0.0.1"
-dependencies = [
- "invars_application",
- "invars_domain",
  "polars",
 ]
 
@@ -2102,7 +2080,7 @@ dependencies = [
  "once_cell",
  "socket2",
  "tracing",
- "windows-sys 0.60.2",
+ "windows-sys 0.59.0",
 ]
 
 [[package]]

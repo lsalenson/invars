@@ -1,8 +1,8 @@
-use invars_domain::report::Report;
-use invars_domain::spec::Spec;
 
 use crate::engine::Engine;
 use crate::error::{ApplicationError, ApplicationResult};
+use crate::report::Report;
+use crate::spec::Spec;
 
 pub struct RunSpec<E: Engine> {
     engine: E,

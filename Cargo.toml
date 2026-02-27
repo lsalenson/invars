@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/*"]
+members = ["crates/invars"]
 
 [workspace.package]
 edition = "2024"
@@ -9,10 +9,3 @@ repository = "https://github.com/lsalenson/invars"
 authors = ["Léo Salenson <leo.salenson@outlook.fr>"]
 description = "Data invariants for Polars."
 version = "0.0.1"
-
-[workspace.dependencies]
-polars = { version = "0.53", features = ["lazy"] }
-invars = { path="crates/invars" }
-invars_domain = { path="crates/invars_domain" }
-invars_application = { path="crates/invars_application" }
-invars_polars = { path="crates/invars_polars" }
