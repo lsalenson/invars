@@ -1091,7 +1091,7 @@ dependencies = [
 
 [[package]]
 name = "invars"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "invars_application",
  "invars_domain",
@@ -1100,18 +1100,18 @@ dependencies = [
 
 [[package]]
 name = "invars_application"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "invars_domain",
 ]
 
 [[package]]
 name = "invars_domain"
-version = "0.1.0"
+version = "0.0.1"
 
 [[package]]
 name = "invars_polars"
-version = "0.1.0"
+version = "0.0.1"
 dependencies = [
  "invars_application",
  "invars_domain",

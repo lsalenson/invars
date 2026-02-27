@@ -1,8 +1,8 @@
 [package]
 name = "invars_application"
-version = "0.1.0"
 publish = false
 license = "MIT"
+version = { workspace = true}
 authors = { workspace = true }
 edition = { workspace = true }
 repository = { workspace = true }
