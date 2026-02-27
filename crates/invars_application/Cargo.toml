@@ -1,7 +1,11 @@
 [package]
 name = "invars_application"
-version = "0.0.1"
-edition = "2024"
+version = "0.1.0"
+publish = false
+license = "MIT"
+authors = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
 
 [dependencies]
-invars_domain = { path= "../invars_domain" }
+invars_domain = { workspace = true }

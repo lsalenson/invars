@@ -1,6 +1,8 @@
 [package]
 name = "invars_domain"
-version = "0.0.1"
-edition = "2024"
-
-[dependencies]
+version = "0.1.0"
+publish = false
+license = "MIT"
+authors = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }

@@ -1,12 +1,16 @@
 [package]
 name = "invars"
 version = "0.1.0"
-edition = "2024"
+license = "MIT"
+publish = true
+authors = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
 
 [dependencies]
-invars_domain = { path = "../invars_domain" }
-invars_application = { path = "../invars_application" }
-invars_polars = { path = "../invars_polars", optional = true }
+invars_domain = { workspace = true }
+invars_application = { workspace = true }
+invars_polars = { workspace = true, optional = true }
 
 [features]
 default = ["polars"]
