@@ -1,3 +1,8 @@
+/// Represents a failure of an invariant.
+///
+/// Violations are produced during execution.
+/// They contain contextual information, metrics,
+/// and optional examples.
 pub mod display;
 pub mod error;
 pub mod value_object;

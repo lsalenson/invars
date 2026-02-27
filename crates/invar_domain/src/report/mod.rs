@@ -1,4 +1,10 @@
+/// Execution result of a `Spec`.
+///
+/// A `Report` contains zero or more `Violation`s
+/// and exposes a `failed()` method to determine
+/// whether the dataset satisfies the contract.
 mod display;
+
 pub mod error;
 pub use error::{ReportError, ReportResult};
 

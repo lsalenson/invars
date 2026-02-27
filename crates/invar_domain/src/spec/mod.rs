@@ -1,3 +1,7 @@
+/// A collection of invariants.
+///
+/// A `Spec` defines the validation contract for a dataset.
+/// It can be validated before execution.
 mod display;
 pub mod error;
 

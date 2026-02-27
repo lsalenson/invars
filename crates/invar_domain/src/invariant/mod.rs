@@ -1,3 +1,10 @@
+/// A declared rule applied to a dataset.
+///
+/// An `Invariant` describes a validation rule but does not contain
+/// execution logic or results.
+///
+/// Invariants are executed by an engine (e.g. `PolarsEngine`)
+/// and produce zero or more `Violation`s.
 mod display;
 pub mod error;
 pub mod value_object;
