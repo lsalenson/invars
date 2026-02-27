@@ -1,6 +1,6 @@
 [package]
 name = "invars_polars"
-version = { workspace = true}
+version = "0.0.1"
 publish = false
 license = "MIT"
 authors = { workspace = true }
