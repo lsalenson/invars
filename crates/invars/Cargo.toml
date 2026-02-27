@@ -4,10 +4,10 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-invar_domain = { path = "../invars_domain" }
-invar_application = { path = "../invars_application" }
-invar_polars = { path = "../invars_polars", optional = true }
+invars_domain = { path = "../invars_domain" }
+invars_application = { path = "../invars_application" }
+invars_polars = { path = "../invars_polars", optional = true }
 
 [features]
 default = ["polars"]
-polars = ["invar_polars"]
+polars = ["invars_polars"]

@@ -1,9 +1,9 @@
 use polars::prelude::*;
 
-use invar_domain::invariant::Invariant;
-use invar_domain::scope::Scope;
-use invar_domain::violation::Violation;
-use invar_domain::violation::value_object::metric_value::MetricValue;
+use invars_domain::invariant::Invariant;
+use invars_domain::scope::Scope;
+use invars_domain::violation::Violation;
+use invars_domain::violation::value_object::metric_value::MetricValue;
 
 use crate::checks::CheckResult;
 

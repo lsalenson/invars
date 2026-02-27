@@ -5,14 +5,14 @@
 //! It allows you to declare invariants on datasets and validate them
 //! against a Polars DataFrame or LazyFrame.
 
-pub use invar_application::*;
-pub use invar_domain::*;
-pub use invar_polars::*;
+pub use invars_application::*;
+pub use invars_domain::*;
+pub use invars_polars::*;
 
 pub mod prelude {
-    pub use invar_domain::{invariant::Invariant, scope::Scope, severity::Severity, spec::Spec};
+    pub use invars_domain::{invariant::Invariant, scope::Scope, severity::Severity, spec::Spec};
 
-    pub use invar_application::RunSpec;
+    pub use invars_application::RunSpec;
 
-    pub use invar_polars::PolarsEngine;
+    pub use invars_polars::PolarsEngine;
 }

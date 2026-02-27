@@ -1,11 +1,11 @@
 [package]
 name = "invars_polars"
-version = "0.1.0"
+version = "0.0.1"
 edition = "2024"
 
 [dependencies]
-invar_domain = { path= "../invars_domain" }
-invar_application = { path= "../invars_application" }
+invars_domain = { path= "../invars_domain" }
+invars_application = { path= "../invars_application" }
 polars = { version = "0.53.0", features = [
     "lazy",
     "fmt",

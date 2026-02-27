@@ -4,4 +4,4 @@ version = "0.0.1"
 edition = "2024"
 
 [dependencies]
-invar_domain = { path= "../invars_domain" }
+invars_domain = { path= "../invars_domain" }

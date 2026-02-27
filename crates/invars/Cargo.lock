@@ -1090,31 +1090,31 @@ dependencies = [
 ]
 
 [[package]]
-name = "invar"
+name = "invars"
 version = "0.1.0"
 dependencies = [
- "invar_application",
- "invar_domain",
- "invar_polars",
+ "invars_application",
+ "invars_domain",
+ "invars_polars",
 ]
 
 [[package]]
-name = "invar_application"
+name = "invars_application"
 version = "0.0.1"
 dependencies = [
- "invar_domain",
+ "invars_domain",
 ]
 
 [[package]]
-name = "invar_domain"
+name = "invars_domain"
 version = "0.0.1"
 
 [[package]]
-name = "invar_polars"
-version = "0.1.0"
+name = "invars_polars"
+version = "0.0.1"
 dependencies = [
- "invar_application",
- "invar_domain",
+ "invars_application",
+ "invars_domain",
  "polars",
 ]
 

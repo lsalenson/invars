@@ -3,12 +3,12 @@
 version = 4
 
 [[package]]
-name = "invar_application"
+name = "invars_application"
 version = "0.0.1"
 dependencies = [
- "invar_domain",
+ "invars_domain",
 ]
 
 [[package]]
-name = "invar_domain"
+name = "invars_domain"
 version = "0.0.1"

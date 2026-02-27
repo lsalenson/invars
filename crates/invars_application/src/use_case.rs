@@ -1,5 +1,5 @@
-use invar_domain::report::Report;
-use invar_domain::spec::Spec;
+use invars_domain::report::Report;
+use invars_domain::spec::Spec;
 
 use crate::engine::Engine;
 use crate::error::{ApplicationError, ApplicationResult};

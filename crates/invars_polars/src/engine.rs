@@ -1,8 +1,8 @@
 use polars::prelude::*;
 
-use invar_application::{ApplicationError, ApplicationResult, Engine};
-use invar_domain::report::Report;
-use invar_domain::spec::Spec;
+use invars_application::{ApplicationError, ApplicationResult, Engine};
+use invars_domain::report::Report;
+use invars_domain::spec::Spec;
 
 use crate::checks;
 

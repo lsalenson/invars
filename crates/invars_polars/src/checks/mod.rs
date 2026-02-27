@@ -1,7 +1,7 @@
 use polars::prelude::*;
 
-use invar_domain::invariant::Invariant;
-use invar_domain::violation::Violation;
+use invars_domain::invariant::Invariant;
+use invars_domain::violation::Violation;
 
 mod not_null;
 mod row_count_min;

@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "invar_domain"
+name = "invars_domain"
 version = "0.0.1"
