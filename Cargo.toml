@@ -7,6 +7,7 @@ edition = "2024"
 license = "Apache-2.0"
 repository = "https://github.com/lsalenson/invars"
 authors = ["Léo Salenson <leo.salenson@outlook.fr>"]
+description = "Data invariants for Polars."
 
 [workspace.dependencies]
 polars = { version = "0.53", features = ["lazy"] }

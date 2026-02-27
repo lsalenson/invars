@@ -5,7 +5,6 @@
 //! It allows you to declare invariants on datasets and validate them
 //! against a Polars DataFrame or LazyFrame.
 
-pub use invars_application::*;
 pub use invars_domain::*;
 pub use invars_polars::*;
 
