@@ -1,5 +1,5 @@
 [package]
-name = "invar_domain"
+name = "invars_domain"
 version = "0.0.1"
 edition = "2024"
 
