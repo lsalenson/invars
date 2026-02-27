@@ -1,0 +1,16 @@
+[package]
+name = "invars_polars"
+version = { workspace = true}
+publish = false
+license = "MIT"
+authors = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
+
+[dependencies]
+invars_domain = { workspace = true }
+invars_application = { workspace = true }
+polars = { version = "0.53.0", features = [
+    "lazy",
+    "fmt",
+] }

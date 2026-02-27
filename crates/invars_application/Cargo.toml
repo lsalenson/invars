@@ -1,0 +1,11 @@
+[package]
+name = "invars_application"
+publish = false
+license = "MIT"
+version = { workspace = true}
+authors = { workspace = true }
+edition = { workspace = true }
+repository = { workspace = true }
+
+[dependencies]
+invars_domain = { workspace = true }
