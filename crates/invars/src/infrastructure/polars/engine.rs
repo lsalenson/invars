@@ -4,6 +4,7 @@ use crate::error::{ApplicationError, ApplicationResult};
 use crate::infrastructure::polars::checks;
 use crate::report::Report;
 use crate::spec::Spec;
+use crate::infrastructure::polars::kind::PolarsKind;
 
 pub struct PolarsEngine;
 
@@ -11,7 +12,11 @@ impl PolarsEngine {
     pub fn new() -> Self {
         Self
     }
-    pub fn execute_lazy(&self, lf: &LazyFrame, spec: &Spec) -> ApplicationResult<Report> {
+    pub fn execute_lazy(
+        &self,
+        lf: &LazyFrame,
+        spec: &Spec<PolarsKind>,
+    ) -> ApplicationResult<Report> {
         let df = lf
             .clone()
             .collect()
@@ -27,10 +32,14 @@ impl Default for PolarsEngine {
     }
 }
 
-impl Engine for PolarsEngine {
+impl Engine<PolarsKind> for PolarsEngine {
     type Dataset = DataFrame;
 
-    fn execute(&self, dataset: &Self::Dataset, spec: &Spec) -> ApplicationResult<Report> {
+    fn execute(
+        &self,
+        dataset: &Self::Dataset,
+        spec: &Spec<PolarsKind>,
+    ) -> ApplicationResult<Report> {
         let mut report = Report::new();
 
         for invariant in spec.invariants() {

@@ -1,12 +1,16 @@
 use polars::prelude::*;
 
 use crate::infrastructure::polars::checks::CheckResult;
+use crate::infrastructure::polars::kind::PolarsKind;
 use crate::invariant::Invariant;
 use crate::scope::Scope;
 use crate::violation::value_object::metric_value::MetricValue;
 use crate::violation::Violation;
 
-pub fn check(df: &DataFrame, inv: &Invariant) -> CheckResult {
+pub fn check(
+    df: &DataFrame,
+    inv: &Invariant<PolarsKind>,
+) -> CheckResult {
     let column = match inv.scope() {
         Scope::Column { name } => name,
         _ => return Err("unique requires column scope".into()),
