@@ -1,35 +1,58 @@
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PolarsKind {
+    // Nullability
     NotNull,
+    NullRatioMax,
+
+    // Uniqueness
     Unique,
+    CompositeUnique,
+    DuplicateRatioMax,
+
+    // Row count
     RowCountMin,
-}
+    RowCountMax,
+    RowCountBetween,
 
-impl PolarsKind {
-    pub const ALL: &'static [PolarsKind] = &[
-        PolarsKind::NotNull,
-        PolarsKind::Unique,
-        PolarsKind::RowCountMin,
-    ];
+    // Column structure
+    ColumnExists,
+    ColumnMissing,
+    DTypeIs,
+    SchemaEquals,
 
-    pub fn as_str(self) -> &'static str {
-        match self {
-            Self::NotNull => "not_null",
-            Self::Unique => "unique",
-            Self::RowCountMin => "row_count_min",
-        }
-    }
-}
+    // Numeric value constraints
+    ValueMin,
+    ValueMax,
+    ValueBetween,
+    MeanBetween,
+    StdDevMax,
+    SumBetween,
 
-impl std::str::FromStr for PolarsKind {
-    type Err = String;
+    // Date / time constraints
+    DateBetween,
+    NoFutureDates,
+    MonotonicIncreasing,
+    NoGapsInSequence,
 
-    fn from_str(value: &str) -> Result<Self, Self::Err> {
-        match value {
-            "not_null" => Ok(Self::NotNull),
-            "unique" => Ok(Self::Unique),
-            "row_count_min" => Ok(Self::RowCountMin),
-            other => Err(format!("unsupported polars invariant: {other}")),
-        }
-    }
+    // String constraints
+    RegexMatch,
+    StringLengthMin,
+    StringLengthMax,
+    StringLengthBetween,
+
+    // Domain constraints
+    AllowedValues,
+    ForbiddenValues,
+
+    // Statistical / distribution constraints
+    OutlierRatioMax,
+    PercentileBetween,
+
+    // Relational constraints
+    ForeignKey,
+    ColumnEquals,
+    ConditionalNotNull,
+
+    // Custom Polars expression
+    CustomExpr,
 }

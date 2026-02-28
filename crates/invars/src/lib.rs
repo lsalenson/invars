@@ -19,9 +19,9 @@ pub use crate::application::*;
 pub mod prelude {
     pub use crate::domain::{
         invariant::Invariant,
+
         invariant::value_object::{ 
             id::InvariantId,
-            name::InvariantName
         },
         scope::Scope,
         severity::Severity,
@@ -32,4 +32,8 @@ pub mod prelude {
 
     #[cfg(feature = "polars")]
     pub use crate::infrastructure::polars::PolarsEngine;
+    #[cfg(feature = "polars")]
+    pub use crate::infrastructure::polars::{
+        kind::PolarsKind
+    };
 }

@@ -40,15 +40,11 @@ impl Engine<PolarsKind> for PolarsEngine {
         dataset: &Self::Dataset,
         spec: &Spec<PolarsKind>,
     ) -> ApplicationResult<Report> {
+        let violations = checks::run_all(dataset, spec.invariants())
+            .map_err(|e| ApplicationError::engine_failure(e.to_string()))?;
+
         let mut report = Report::new();
-
-        for invariant in spec.invariants() {
-            let violations = checks::run(dataset, invariant)
-                .map_err(|e| ApplicationError::engine_failure(e.to_string()))?;
-
-            report.extend(violations);
-        }
-
+        report.extend(violations);
         Ok(report)
     }
 }
