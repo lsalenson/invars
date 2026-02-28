@@ -1,10 +1,10 @@
-use polars::prelude::*;
 use crate::engine::Engine;
 use crate::error::{ApplicationError, ApplicationResult};
 use crate::infrastructure::polars::checks;
+use crate::infrastructure::polars::kind::PolarsKind;
 use crate::report::Report;
 use crate::spec::Spec;
-use crate::infrastructure::polars::kind::PolarsKind;
+use polars::prelude::*;
 
 pub struct PolarsEngine;
 

@@ -65,11 +65,7 @@ impl<K> Invariant<K> {
         self
     }
 
-    pub fn with_param_value(
-        mut self,
-        key: impl Into<String>,
-        value: impl Into<String>,
-    ) -> Self {
+    pub fn with_param_value(mut self, key: impl Into<String>, value: impl Into<String>) -> Self {
         self.params.insert(key.into(), value.into());
         self
     }

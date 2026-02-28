@@ -1,11 +1,8 @@
-use polars::frame::DataFrame;
-use crate::invariant::Invariant;
 use crate::infrastructure::polars::kind::PolarsKind;
+use crate::invariant::Invariant;
 use crate::violation::Violation;
-pub fn run_direct(
-    df: &DataFrame,
-    inv: &Invariant<PolarsKind>,
-) -> Option<Violation> {
+use polars::frame::DataFrame;
+pub fn run_direct(df: &DataFrame, inv: &Invariant<PolarsKind>) -> Option<Violation> {
     if !matches!(inv.kind(), PolarsKind::SchemaEquals) {
         return None;
     }
@@ -20,14 +17,12 @@ pub fn run_direct(
         .join(",");
 
     if actual != expected {
-        Some(
-            Violation::new(
-                inv.id().clone(),
-                inv.severity(),
-                inv.scope().clone(),
-                "schema mismatch".to_string(),
-            )
-        )
+        Some(Violation::new(
+            inv.id().clone(),
+            inv.severity(),
+            inv.scope().clone(),
+            "schema mismatch".to_string(),
+        ))
     } else {
         None
     }

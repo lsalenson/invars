@@ -5,9 +5,5 @@ use crate::spec::Spec;
 pub trait Engine<K> {
     type Dataset;
 
-    fn execute(
-        &self,
-        dataset: &Self::Dataset,
-        spec: &Spec<K>,
-    ) -> ApplicationResult<Report>;
+    fn execute(&self, dataset: &Self::Dataset, spec: &Spec<K>) -> ApplicationResult<Report>;
 }

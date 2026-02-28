@@ -4,25 +4,21 @@ use crate::infrastructure::polars::kind::PolarsKind;
 use crate::invariant::Invariant;
 use crate::violation::Violation;
 
-mod unique;
-mod null;
-mod count;
 mod column;
-mod numeric;
-mod date;
-mod string;
-mod domain;
-mod stat;
-mod relational;
+mod count;
 mod custom;
+mod date;
+mod domain;
+mod null;
+mod numeric;
+mod relational;
+mod stat;
+mod string;
+mod unique;
 
 pub type CheckResult = Result<Vec<Violation>, Box<dyn std::error::Error>>;
 
-pub fn run_all(
-    df: &DataFrame,
-    invariants: &[Invariant<PolarsKind>],
-) -> CheckResult
-{
+pub fn run_all(df: &DataFrame, invariants: &[Invariant<PolarsKind>]) -> CheckResult {
     let mut violations = Vec::with_capacity(invariants.len());
 
     // Phase 1: direct metadata checks (no lazy scan)

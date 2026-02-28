@@ -1,19 +1,17 @@
-use polars::datatypes::AnyValue;
-use polars::prelude::{col, Expr};
 use crate::infrastructure::polars::kind::PolarsKind;
 use crate::infrastructure::polars::utils::metric_violation;
 use crate::invariant::Invariant;
 use crate::scope::Scope;
 use crate::violation::Violation;
+use polars::datatypes::AnyValue;
+use polars::prelude::{Expr, col};
 
 pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
-    let Scope::Column { name } = inv.scope() else { return None };
+    let Scope::Column { name } = inv.scope() else {
+        return None;
+    };
 
-    Some(
-        col(name)
-            .is_null()
-            .sum()
-    )
+    Some(col(name).is_null().sum())
 }
 
 pub fn map(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violation> {

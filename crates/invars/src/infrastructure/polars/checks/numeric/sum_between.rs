@@ -1,18 +1,16 @@
-use polars::prelude::*;
-use crate::invariant::Invariant;
 use crate::infrastructure::polars::kind::PolarsKind;
+use crate::invariant::Invariant;
 use crate::scope::Scope;
-use crate::violation::value_object::metric_value::MetricValue;
 use crate::violation::Violation;
+use crate::violation::value_object::metric_value::MetricValue;
+use polars::prelude::*;
 
 pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
-    let Scope::Column { name } = inv.scope() else { return None };
+    let Scope::Column { name } = inv.scope() else {
+        return None;
+    };
 
-    Some(
-        col(name)
-            .cast(DataType::Float64)
-            .sum()
-    )
+    Some(col(name).cast(DataType::Float64).sum())
 }
 
 pub fn map(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violation> {
@@ -28,7 +26,7 @@ pub fn map(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violation> {
                 inv.scope().clone(),
                 format!("sum {sum} not in [{min}, {max}]"),
             )
-                .with_metric("sum", MetricValue::Float(sum))
+            .with_metric("sum", MetricValue::Float(sum)),
         )
     } else {
         None

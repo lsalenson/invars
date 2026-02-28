@@ -1,9 +1,9 @@
-use polars::datatypes::DataType;
-use polars::prelude::{col, Expr};
 use crate::infrastructure::polars::kind::PolarsKind;
 use crate::invariant::Invariant;
-use crate::violation::value_object::metric_value::MetricValue;
 use crate::violation::Violation;
+use crate::violation::value_object::metric_value::MetricValue;
+use polars::datatypes::DataType;
+use polars::prelude::{Expr, col};
 
 pub fn metric_violation<K>(
     inv: &Invariant<PolarsKind>,
@@ -22,7 +22,7 @@ pub fn metric_violation<K>(
             inv.scope().clone(),
             message,
         )
-            .with_metric(metric_name, MetricValue::Int(value)),
+        .with_metric(metric_name, MetricValue::Int(value)),
     )
 }
 

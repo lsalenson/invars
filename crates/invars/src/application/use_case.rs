@@ -22,11 +22,7 @@ where
         }
     }
 
-    pub fn run(
-        &self,
-        dataset: &E::Dataset,
-        spec: &Spec<K>,
-    ) -> ApplicationResult<Report> {
+    pub fn run(&self, dataset: &E::Dataset, spec: &Spec<K>) -> ApplicationResult<Report> {
         spec.validate().map_err(ApplicationError::InvalidSpec)?;
 
         let report = self.engine.execute(dataset, spec)?;
