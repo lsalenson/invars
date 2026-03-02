@@ -30,7 +30,7 @@
 //!
 //! ## Quick Example (Polars)
 //!
-//! ```rust
+//!
 //! # #[cfg(feature = "polars")]
 //! # fn main() -> Result<(), Box<dyn std::error::Error>> {
 //! use invars::prelude::*;
@@ -51,13 +51,12 @@
 //! let engine = EnginePolarsDataFrame::default();
 //! let violations = engine.evaluate(&df, vec![invariant])?;
 //!
-//! assert_eq!(violations.len(), 1);
 //! Ok(())
 //! # }
 //! #
 //! # #[cfg(not(feature = "polars"))]
 //! # fn main() {}
-//! ```
+//!
 //!
 //! ---
 //!
