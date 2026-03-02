@@ -1,6 +1,6 @@
 [package]
 name = "invars"
-version = "0.0.1"
+version = "0.1.0"
 publish = true
 license = { workspace = true }
 authors = { workspace = true }
