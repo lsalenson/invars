@@ -47,4 +47,4 @@ impl fmt::Display for ScopeError {
 
 impl Error for ScopeError {}
 
-pub type ScopeResult<T> = Result<T, ScopeError>;
+// pub type ScopeResult<T> = Result<T, ScopeError>;
