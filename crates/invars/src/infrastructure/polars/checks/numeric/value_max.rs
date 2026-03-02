@@ -12,7 +12,6 @@ pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
     Some(col(name).cast(DataType::Float64).gt(lit(max)).sum())
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -51,11 +50,7 @@ mod tests {
         let df = df(vec![1, 2, 3]);
         let inv = make_invariant("a", 10.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -71,11 +66,7 @@ mod tests {
         let df = df(vec![1, 20, 3]);
         let inv = make_invariant("a", 10.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -89,11 +80,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::ValueMax,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::ValueMax, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

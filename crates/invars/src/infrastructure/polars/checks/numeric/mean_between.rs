@@ -29,7 +29,6 @@ pub fn map(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violation> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -70,11 +69,7 @@ mod tests {
         let df = df(vec![1, 2, 3]); // mean = 2
         let inv = make_invariant("a", 0.0, 5.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);
@@ -87,11 +82,7 @@ mod tests {
         let df = df(vec![1, 1, 1]); // mean = 1
         let inv = make_invariant("a", 2.0, 5.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);
@@ -104,11 +95,7 @@ mod tests {
         let df = df(vec![10, 10, 10]); // mean = 10
         let inv = make_invariant("a", 0.0, 5.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);
@@ -119,11 +106,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::MeanBetween,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::MeanBetween, Scope::Dataset);
 
         let expr = plan(&inv);
         assert!(expr.is_none());

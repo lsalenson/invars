@@ -50,11 +50,7 @@ mod tests {
         let df = df(vec!["a", "ab", "abc"]);
         let inv = make_invariant(3);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -70,11 +66,7 @@ mod tests {
         let df = df(vec!["a", "abcd", "abcdef"]); // 2 violations
         let inv = make_invariant(3);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -88,11 +80,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::StringLengthMax,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::StringLengthMax, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

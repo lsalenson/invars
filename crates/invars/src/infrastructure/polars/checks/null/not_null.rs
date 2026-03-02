@@ -55,11 +55,7 @@ mod tests {
         let df = df_with_optional(vec![Some(1), Some(2), Some(3)]);
         let inv = make_invariant("a");
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let count = value.try_extract::<i64>().unwrap();
@@ -75,11 +71,7 @@ mod tests {
         let df = df_with_optional(vec![Some(1), None, Some(3)]);
         let inv = make_invariant("a");
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let count = value.try_extract::<i64>().unwrap();
@@ -93,11 +85,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::NotNull,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::NotNull, Scope::Dataset);
 
         let expr = plan(&inv);
         assert!(expr.is_none());

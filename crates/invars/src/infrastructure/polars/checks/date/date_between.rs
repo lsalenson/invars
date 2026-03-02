@@ -49,10 +49,7 @@ mod tests {
             NaiveDate::from_ymd_opt(2023, 1, 5).unwrap(),
             NaiveDate::from_ymd_opt(2023, 1, 10).unwrap(),
         ];
-        DataFrame::new_infer_height(
-            vec![Series::new(PlSmallStr::from("d"), dates).into()],
-        )
-        .unwrap()
+        DataFrame::new_infer_height(vec![Series::new(PlSmallStr::from("d"), dates).into()]).unwrap()
     }
 
     #[test]
@@ -67,11 +64,7 @@ mod tests {
         let df = make_df();
         let inv = make_invariant("2023-01-01", "2023-01-31");
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let count = value.try_extract::<i64>().unwrap();
@@ -84,11 +77,7 @@ mod tests {
         let df = make_df();
         let inv = make_invariant("2023-01-03", "2023-01-08");
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let count = value.try_extract::<i64>().unwrap();

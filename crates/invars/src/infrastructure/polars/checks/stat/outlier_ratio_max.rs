@@ -49,7 +49,6 @@ pub fn map(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violation> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -92,11 +91,7 @@ mod tests {
         let df = df(values.clone());
         let inv = make_invariant(3.0, 0.5, values.len() as i64);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -116,11 +111,7 @@ mod tests {
         let df = df(values.clone());
         let inv = make_invariant(1.0, 0.1, values.len() as i64);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -135,11 +126,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::OutlierRatioMax,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::OutlierRatioMax, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

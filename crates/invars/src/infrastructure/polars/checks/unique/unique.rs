@@ -24,17 +24,16 @@ pub fn map(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violation> {
     )
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
     use crate::infrastructure::polars::kind::PolarsKind;
     use crate::invariant::Invariant;
-    use crate::scope::Scope;
-    use std::collections::BTreeMap;
     use crate::prelude::InvariantId;
+    use crate::scope::Scope;
     use polars::df;
     use polars::prelude::{DataFrame, IntoLazy};
+    use std::collections::BTreeMap;
 
     fn make_invariant(row_count: i64) -> Invariant<PolarsKind> {
         let mut params = BTreeMap::new();

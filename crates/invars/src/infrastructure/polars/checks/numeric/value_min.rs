@@ -49,11 +49,7 @@ mod tests {
         let df = df(vec![10, 20, 30]);
         let inv = make_invariant("a", 0.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -69,11 +65,7 @@ mod tests {
         let df = df(vec![-10, 5, 6]);
         let inv = make_invariant("a", 0.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -87,11 +79,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::ValueMin,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::ValueMin, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

@@ -31,7 +31,6 @@ pub fn map(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violation> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -73,11 +72,7 @@ mod tests {
         let df = df_with_optional(vec![Some(1), None, Some(3)]); // 1/3 = 0.33
         let inv = make_invariant("a", 3, 0.5);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);
@@ -90,11 +85,7 @@ mod tests {
         let df = df_with_optional(vec![None, None, Some(3)]); // 2/3 = 0.66
         let inv = make_invariant("a", 3, 0.5);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);
@@ -109,12 +100,7 @@ mod tests {
         params.insert("row_count_cache".to_string(), "3".to_string());
         params.insert("max_ratio".to_string(), "0.5".to_string());
 
-        let inv = Invariant::new(
-            id,
-            PolarsKind::NullRatioMax,
-            Scope::Dataset,
-        )
-        .with_params(params);
+        let inv = Invariant::new(id, PolarsKind::NullRatioMax, Scope::Dataset).with_params(params);
 
         let expr = plan(&inv);
         assert!(expr.is_none());

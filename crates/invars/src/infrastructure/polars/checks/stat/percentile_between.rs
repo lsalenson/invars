@@ -37,7 +37,6 @@ pub fn map(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violation> {
     }
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -79,11 +78,7 @@ mod tests {
         let df = df(values);
         let inv = make_invariant(0.5, 2.0, 4.0); // median should be 3
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let val = result.columns()[0]
             .get(0)
@@ -100,11 +95,7 @@ mod tests {
         let df = df(values);
         let inv = make_invariant(0.5, 4.5, 10.0); // median = 3, below min
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let val = result.columns()[0]
             .get(0)
@@ -119,11 +110,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::PercentileBetween,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::PercentileBetween, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

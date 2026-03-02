@@ -88,11 +88,7 @@ mod tests {
 
         let inv = make_invariant("a");
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         let violation = map(&inv, value);

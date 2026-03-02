@@ -65,9 +65,9 @@ mod tests {
     #[test]
     fn test_dtype_is_violation() {
         let df = df! {
-        "a" => &[1i64, 2i64, 3i64]
-    }
-            .unwrap();
+            "a" => &[1i64, 2i64, 3i64]
+        }
+        .unwrap();
 
         let inv = make_invariant_dtype("a", "Int32");
 
@@ -81,11 +81,10 @@ mod tests {
 
     #[test]
     fn test_dtype_is_wrong_scope_returns_none() {
-
         let df = df! {
             "a" => &[1i64, 2i64, 3i64]
         }
-            .unwrap();
+        .unwrap();
         let inv = Invariant::new(
             "wrong_scope_test".to_string().parse().unwrap(),
             PolarsKind::DTypeIs,

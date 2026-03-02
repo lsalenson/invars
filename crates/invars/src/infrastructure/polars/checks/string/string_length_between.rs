@@ -19,7 +19,6 @@ pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
     Some(too_short.or(too_long).sum())
 }
 
-
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -59,11 +58,7 @@ mod tests {
         let df = df(vec!["ab", "abcd", "abc"]);
         let inv = make_invariant(2, 5);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -79,11 +74,7 @@ mod tests {
         let df = df(vec!["a", "abcdef", "abc"]); // too short + too long
         let inv = make_invariant(2, 5);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let count = result.columns()[0]
             .get(0)
@@ -97,11 +88,7 @@ mod tests {
     #[test]
     fn test_wrong_scope_returns_none() {
         let id = InvariantId::new("wrong_scope").unwrap();
-        let inv = Invariant::new(
-            id,
-            PolarsKind::StringLengthBetween,
-            Scope::Dataset,
-        );
+        let inv = Invariant::new(id, PolarsKind::StringLengthBetween, Scope::Dataset);
 
         assert!(plan(&inv).is_none());
     }

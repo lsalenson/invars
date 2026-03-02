@@ -40,7 +40,7 @@ mod tests {
                 name: column.to_string(),
             },
         )
-            .with_params(params)
+        .with_params(params)
     }
 
     fn df(values: Vec<i32>) -> DataFrame {
@@ -60,11 +60,7 @@ mod tests {
         let df = df(vec![1, 2, 3, 4, 5]);
         let inv = make_invariant("a", 0.0, 10.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
         assert!(value.try_extract::<i64>().unwrap() == 0);
@@ -75,11 +71,7 @@ mod tests {
         let df = df(vec![1, 2, 99, -5]);
         let inv = make_invariant("a", 0.0, 10.0);
 
-        let result = df
-            .lazy()
-            .select([plan(&inv).unwrap()])
-            .collect()
-            .unwrap();
+        let result = df.lazy().select([plan(&inv).unwrap()]).collect().unwrap();
 
         let value = result.columns()[0].get(0).unwrap();
 
