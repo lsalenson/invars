@@ -6,7 +6,6 @@ use crate::violation::value_object::metric_value::MetricValue;
 use polars::prelude::AnyValue;
 use polars::prelude::*;
 
-
 /// Builds the Polars expression counting mismatching rows between
 /// two columns.
 ///

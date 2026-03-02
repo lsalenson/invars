@@ -59,7 +59,7 @@
 //! ## Feature Flags
 //!
 //! - `polars` — Enables the Polars execution engine.
-//! 
+//!
 //! ## Design Goals
 //!
 //! - Declarative validation rules

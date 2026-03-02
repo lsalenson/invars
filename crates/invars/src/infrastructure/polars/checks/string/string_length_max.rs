@@ -3,7 +3,6 @@ use crate::invariant::Invariant;
 use crate::scope::Scope;
 use polars::prelude::*;
 
-
 /// Builds the Polars expression counting rows where the string length
 /// exceeds the configured maximum.
 ///

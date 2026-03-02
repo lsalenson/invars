@@ -5,7 +5,6 @@ use crate::report::Report;
 use crate::spec::Spec;
 use polars::prelude::*;
 
-
 /// Polars-based execution engine for evaluating invariants on a `DataFrame`.
 ///
 /// This engine implements the generic `Engine` trait for `PolarsKind` invariants.

@@ -4,7 +4,6 @@ use crate::scope::Scope;
 use crate::violation::Violation;
 use polars::frame::DataFrame;
 
-
 /// Executes a direct (non-lazy) check ensuring that a column
 /// has the expected data type.
 ///

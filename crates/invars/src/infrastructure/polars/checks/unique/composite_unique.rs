@@ -5,7 +5,6 @@ use crate::violation::Violation;
 use polars::datatypes::AnyValue;
 use polars::prelude::{Expr, as_struct, col};
 
-
 /// Builds the Polars expression computing the number of unique
 /// composite rows across multiple columns.
 ///
