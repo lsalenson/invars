@@ -26,7 +26,6 @@ use polars::prelude::*;
 /// Note:
 /// - Bounds are inclusive. Dates equal to `start` or `end`
 ///   are considered valid.
-
 pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
     let Scope::Column { name } = inv.scope() else {
         return None;

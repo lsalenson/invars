@@ -113,7 +113,7 @@ fn plan_expr(inv: &Invariant<PolarsKind>) -> Option<Expr> {
         PolarsKind::NotNull => null::not_null::plan(inv),
         PolarsKind::NullRatioMax => null::null_ratio_max::plan(inv),
 
-        PolarsKind::Unique => unique::unique::plan(inv),
+        PolarsKind::Unique => unique::n_unique::plan(inv),
         PolarsKind::CompositeUnique => unique::composite_unique::plan(inv),
         PolarsKind::DuplicateRatioMax => unique::duplicate_ratio_max::plan(inv),
 
@@ -163,7 +163,7 @@ fn map_violation(inv: &Invariant<PolarsKind>, value: AnyValue) -> Option<Violati
         PolarsKind::NotNull => null::not_null::map(inv, value),
         PolarsKind::NullRatioMax => null::null_ratio_max::map(inv, value),
 
-        PolarsKind::Unique => unique::unique::map(inv, value),
+        PolarsKind::Unique => unique::n_unique::map(inv, value),
         PolarsKind::CompositeUnique => unique::composite_unique::map(inv, value),
         PolarsKind::DuplicateRatioMax => unique::duplicate_ratio_max::map(inv, value),
 

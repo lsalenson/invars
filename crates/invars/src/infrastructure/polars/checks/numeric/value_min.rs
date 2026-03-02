@@ -23,7 +23,6 @@ use polars::prelude::*;
 /// Note:
 /// - The minimum bound is inclusive. Values where `value == min`
 ///   are considered valid.
-
 pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
     let Scope::Column { name } = inv.scope() else {
         return None;

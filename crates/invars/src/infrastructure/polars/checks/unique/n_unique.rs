@@ -43,11 +43,11 @@ pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
 pub fn map(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violation> {
     let unique = v.try_extract::<i64>().ok()?;
     let total: i64 = inv.require_param("row_count_cache").ok()?.parse().ok()?;
-    metric_violation::<PolarsKind>(
+    metric_violation(
         inv,
         "duplicate_count",
         total - unique,
-        format!("duplicates detected"),
+        "duplicates detected".to_string(),
     )
 }
 

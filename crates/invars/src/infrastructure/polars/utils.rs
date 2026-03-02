@@ -2,10 +2,8 @@ use crate::infrastructure::polars::kind::PolarsKind;
 use crate::invariant::Invariant;
 use crate::violation::Violation;
 use crate::violation::value_object::metric_value::MetricValue;
-use polars::datatypes::DataType;
-use polars::prelude::{Expr, col};
 
-pub fn metric_violation<K>(
+pub fn metric_violation(
     inv: &Invariant<PolarsKind>,
     metric_name: &str,
     value: i64,
@@ -24,8 +22,4 @@ pub fn metric_violation<K>(
         )
         .with_metric(metric_name, MetricValue::Int(value)),
     )
-}
-
-pub fn bool_sum_expr(column: &str) -> Expr {
-    col(column).cast(DataType::Boolean).sum()
 }

@@ -44,7 +44,7 @@ pub fn map_row_count(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violati
     match inv.kind() {
         PolarsKind::RowCountMin => {
             let min: i64 = inv.require_param("min").ok()?.parse().ok()?;
-            metric_violation::<PolarsKind>(
+            metric_violation(
                 inv,
                 "row_count",
                 if count < min { count } else { 0 },
@@ -53,7 +53,7 @@ pub fn map_row_count(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violati
         }
         PolarsKind::RowCountMax => {
             let max: i64 = inv.require_param("max").ok()?.parse().ok()?;
-            metric_violation::<PolarsKind>(
+            metric_violation(
                 inv,
                 "row_count",
                 if count > max { count } else { 0 },
