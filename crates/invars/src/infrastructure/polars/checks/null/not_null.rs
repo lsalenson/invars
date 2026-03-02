@@ -37,7 +37,7 @@ pub fn plan(inv: &Invariant<PolarsKind>) -> Option<Expr> {
 /// - `null_count` (integer)
 pub fn map(inv: &Invariant<PolarsKind>, v: AnyValue) -> Option<Violation> {
     let count = v.try_extract::<i64>().ok()?;
-    metric_violation::<PolarsKind>(inv, "null_count", count, format!("{count} nulls found"))
+    metric_violation(inv, "null_count", count, format!("{count} nulls found"))
 }
 
 #[cfg(test)]
