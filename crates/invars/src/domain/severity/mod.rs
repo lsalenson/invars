@@ -1,5 +1,5 @@
 mod display;
-mod error;
+//mod error;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash)]
 pub enum Severity {
