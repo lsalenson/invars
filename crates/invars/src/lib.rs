@@ -90,7 +90,7 @@ pub mod prelude {
         severity::Severity, spec::Spec,
     };
 
-    pub use crate::use_case::RunSpec;
+    pub use crate::use_cases::run_spec::RunSpec;
 
     #[cfg(feature = "polars")]
     pub use crate::infrastructure::polars::EnginePolarsDataFrame;
