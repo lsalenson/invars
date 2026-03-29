@@ -114,47 +114,6 @@ let report = runner.run(&df, &spec)?;
 | Relational   | `foreign_key`, `column_equals`, `conditional_not_null` |
 | Custom       | `custom_expr` |
 
-### Parameters reference
-
-All param values are strings. Numeric and float values are passed as string literals.
-
-| Kind | Scope | Params |
-|------|-------|--------|
-| `not_null` | Column | — |
-| `null_ratio_max` | Column | `max_ratio` — float 0.0–1.0 |
-| `unique` | Column | — |
-| `composite_unique` | Dataset | `columns` — comma-sep column list, e.g. `"a,b"` |
-| `duplicate_ratio_max` | Column | `max_ratio` — float 0.0–1.0 |
-| `row_count_min` | Dataset | `min` — integer |
-| `row_count_max` | Dataset | `max` — integer |
-| `row_count_between` | Dataset | `min`, `max` — integers |
-| `column_exists` | Column | — |
-| `column_missing` | Column | — |
-| `dtype_is` | Column | `dtype` — Polars dtype, e.g. `"Int64"`, `"Utf8"`, `"Float64"` |
-| `schema_equals` | Dataset | `schema` — comma-sep `col:dtype` pairs, e.g. `"a:Int64,b:Utf8"` |
-| `value_min` | Column | `min` |
-| `value_max` | Column | `max` |
-| `value_between` | Column | `min`, `max` |
-| `mean_between` | Column | `min`, `max` |
-| `stddev_max` | Column | `max` |
-| `sum_between` | Column | `min`, `max` |
-| `date_between` | Column | `start`, `end` — ISO 8601 date strings |
-| `no_future_dates` | Column | — |
-| `monotonic_increasing` | Column | — |
-| `no_gaps_in_sequence` | Column | — |
-| `regex_match` | Column | `pattern` — regex string |
-| `string_length_min` | Column | `min` — integer |
-| `string_length_max` | Column | `max` — integer |
-| `string_length_between` | Column | `min`, `max` — integers |
-| `allowed_values` | Column | `values` — comma-sep list, e.g. `"A,B,C"` |
-| `forbidden_values` | Column | `values` — comma-sep list |
-| `outlier_ratio_max` | Column | `z` — Z-score threshold, `max_ratio` — float 0.0–1.0 |
-| `percentile_between` | Column | `p` — percentile 0.0–1.0, `min`, `max` — bounds |
-| `foreign_key` | Column | `allowed_values` — comma-sep valid FK values |
-| `column_equals` | Column | `other_column` — column name to compare against |
-| `conditional_not_null` | Column | `condition_column`, `condition_value` |
-| `custom_expr` | Column | `column` — column name |
-
 ## Report API
 
 ```rust
