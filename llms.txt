@@ -1,0 +1,464 @@
+# invars
+
+> Declarative data validation engine for Rust. Define invariants (validation rules) and evaluate them against datasets using a typed execution engine.
+
+- **Rust crate**: `invars` on crates.io — `cargo add invars --features polars,yaml`
+- **Python package**: `invars` on PyPI — `pip install invars`
+- **Repository**: https://github.com/lsalenson/invars
+- **Docs (Rust)**: https://docs.rs/invars
+- **License**: Apache-2.0
+
+---
+
+## Core Concepts
+
+- **Invariant** — A typed validation rule (e.g. "column must not be null"). Composed of: `id`, `kind`, `scope`, `severity`, `params`.
+- **Spec** — An ordered, deduplicated collection of `Invariant`s.
+- **Scope** — Where the rule applies: `Dataset` (whole dataframe) or `Column { name }` (one column).
+- **Severity** — `Error` (default) | `Warn` | `Info`. Only `Error` violations cause `report.failed()` to return `true`.
+- **Engine** — Executes a `Spec` against data. Default: `EnginePolarsDataFrame` (Polars lazy execution).
+- **Report** — Result of running a spec. Contains `Violation`s with reasons and optional metrics/examples.
+- **Violation** — A failed invariant. Has `invariant_id`, `severity`, `scope`, `reason`, optional `metrics`, optional `examples`.
+
+### Execution model
+```
+Invariant
+   ↓ plan()  →  Polars Expr (metric expression, lazily evaluated)
+   ↓ execute()  →  scalar metric value
+   ↓ map()  →  Option<Violation>
+```
+
+---
+
+## Installation
+
+### Rust
+```toml
+# Cargo.toml
+[dependencies]
+invars = { version = "0.1", features = ["polars"] }
+# With YAML loading:
+invars = { version = "0.1", features = ["polars", "yaml"] }
+```
+
+### Python
+```bash
+pip install invars
+# Requires: pandas >= 1.5, pyarrow >= 10.0, Python >= 3.9
+```
+
+---
+
+## Quick Start — Rust (programmatic spec)
+
+```rust
+use invars::prelude::*;
+use polars::prelude::*;
+
+let df = df![
+    "age"   => [25, 30, 45],
+    "email" => ["a@b.com", "c@d.com", "e@f.com"],
+]?;
+
+let spec = Spec::from_invariants(vec![
+    Invariant::new(
+        InvariantId::new("age_not_null")?,
+        PolarsKind::NotNull,
+        Scope::column("age"),
+    ),
+    Invariant::new(
+        InvariantId::new("row_min")?,
+        PolarsKind::RowCountMin,
+        Scope::Dataset,
+    )
+    .with_param_value("min", "1"),
+    Invariant::new(
+        InvariantId::new("email_unique")?,
+        PolarsKind::Unique,
+        Scope::column("email"),
+    )
+    .with_severity(Severity::Warn),
+]);
+
+let report = RunSpec::new(EnginePolarsDataFrame).run(&df, &spec)?;
+
+if report.failed() {
+    for v in report.errors() {
+        eprintln!("[{}] {} — {}", v.invariant_id().as_str(), v.scope(), v.reason());
+    }
+}
+```
+
+## Quick Start — Rust (YAML spec)
+
+```rust
+use invars::prelude::*;
+
+let yaml = std::fs::read_to_string("spec.yaml")?;
+let spec = spec_from_str(&yaml)?;
+
+let runner = RunSpec::new(EnginePolarsDataFrame);
+let report = runner.run(&df, &spec)?;
+```
+
+## Quick Start — Python
+
+```python
+import pandas as pd
+from invars import run
+
+spec_yaml = """
+invariants:
+  - id: age_not_null
+    kind: not_null
+    scope:
+      type: column
+      name: age
+  - id: row_min
+    kind: row_count_min
+    scope:
+      type: dataset
+    params:
+      min: "10"
+"""
+
+df = pd.DataFrame({"age": [25, None, 45]})
+report = run(spec_yaml, df)
+
+if report.failed():
+    for v in report.violations:
+        print(v.invariant_id, v.severity, v.reason)
+```
+
+## Quick Start — CLI
+
+```bash
+invars run --spec spec.yaml --data data.parquet
+invars run --spec spec.yaml --data data.csv --format json
+invars run --spec spec.yaml --data data.parquet --fail-on-violations false
+```
+
+---
+
+## YAML Spec Format
+
+```yaml
+invariants:
+  - id: <string>              # unique identifier, [a-zA-Z0-9_-]+
+    kind: <kind>              # snake_case kind name (see reference below)
+    scope:
+      type: dataset           # dataset-level invariant
+      # OR
+      type: column
+      name: <column_name>     # column-level invariant
+    severity: error           # error (default) | warn | info
+    params:                   # optional; all values are strings
+      key: "value"
+```
+
+---
+
+## Invariant Reference (all 33 kinds)
+
+All param values are strings. `row_count_cache` is injected automatically by the engine — do not set it manually.
+
+### Nullability
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `not_null` | `NotNull` | Column | — | Fails if any null exists |
+| `null_ratio_max` | `NullRatioMax` | Column | `max_ratio` | Float 0.0–1.0. Fails if null% > max_ratio |
+
+### Uniqueness
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `unique` | `Unique` | Column | — | All values must be distinct |
+| `composite_unique` | `CompositeUnique` | Dataset | `columns` | Comma-sep column list, e.g. `"a,b"` |
+| `duplicate_ratio_max` | `DuplicateRatioMax` | Column | `max_ratio` | Float 0.0–1.0 |
+
+### Row Count
+
+| YAML kind | Rust variant | Scope | Required params |
+|---|---|---|---|
+| `row_count_min` | `RowCountMin` | Dataset | `min` (integer) |
+| `row_count_max` | `RowCountMax` | Dataset | `max` (integer) |
+| `row_count_between` | `RowCountBetween` | Dataset | `min`, `max` (integers) |
+
+### Structure
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `column_exists` | `ColumnExists` | Column | — | Column must be present in schema |
+| `column_missing` | `ColumnMissing` | Column | — | Column must NOT be present |
+| `dtype_is` | `DTypeIs` | Column | `dtype` | Polars dtype string, e.g. `"Int64"`, `"Utf8"`, `"Float64"` |
+| `schema_equals` | `SchemaEquals` | Dataset | `schema` | Comma-sep `col:dtype` pairs, e.g. `"a:Int64,b:Utf8"` |
+
+### Numeric
+
+| YAML kind | Rust variant | Scope | Required params |
+|---|---|---|---|
+| `value_min` | `ValueMin` | Column | `min` (numeric) |
+| `value_max` | `ValueMax` | Column | `max` (numeric) |
+| `value_between` | `ValueBetween` | Column | `min`, `max` (numeric) |
+| `mean_between` | `MeanBetween` | Column | `min`, `max` (numeric) |
+| `stddev_max` | `StdDevMax` | Column | `max` (numeric) |
+| `sum_between` | `SumBetween` | Column | `min`, `max` (numeric) |
+
+### Date / Time
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `date_between` | `DateBetween` | Column | `start`, `end` | ISO 8601 date strings |
+| `no_future_dates` | `NoFutureDates` | Column | — | No value after today |
+| `monotonic_increasing` | `MonotonicIncreasing` | Column | — | Each value ≥ previous |
+| `no_gaps_in_sequence` | `NoGapsInSequence` | Column | — | No missing integers in sequence |
+
+### String
+
+| YAML kind | Rust variant | Scope | Required params |
+|---|---|---|---|
+| `regex_match` | `RegexMatch` | Column | `pattern` (regex string) |
+| `string_length_min` | `StringLengthMin` | Column | `min` (integer) |
+| `string_length_max` | `StringLengthMax` | Column | `max` (integer) |
+| `string_length_between` | `StringLengthBetween` | Column | `min`, `max` (integers) |
+
+### Domain
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `allowed_values` | `AllowedValues` | Column | `values` | Comma-sep string list, e.g. `"A,B,C"` |
+| `forbidden_values` | `ForbiddenValues` | Column | `values` | Comma-sep string list |
+
+### Statistical
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `outlier_ratio_max` | `OutlierRatioMax` | Column | `z`, `max_ratio` | `z` = Z-score threshold (float), `max_ratio` = float 0.0–1.0 |
+| `percentile_between` | `PercentileBetween` | Column | `p`, `min`, `max` | `p` = percentile 0.0–1.0, `min`/`max` = expected bounds |
+
+### Relational
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `foreign_key` | `ForeignKey` | Column | `allowed_values` | Comma-sep list of valid foreign key values |
+| `column_equals` | `ColumnEquals` | Column | `other_column` | Column name to compare against |
+| `conditional_not_null` | `ConditionalNotNull` | Column | `condition_column`, `condition_value` | Not null when `condition_column == condition_value` |
+
+### Custom
+
+| YAML kind | Rust variant | Scope | Required params | Notes |
+|---|---|---|---|---|
+| `custom_expr` | `CustomExpr` | Column | `column` | Column name; write custom Polars expr logic directly |
+
+---
+
+## Rust API Reference
+
+### `Invariant<K>`
+
+```rust
+// Construction
+Invariant::new(id: InvariantId, kind: K, scope: Scope) -> Self
+
+// Builder methods
+.with_severity(Severity) -> Self
+.with_param_value(key: impl Into<String>, value: impl Into<String>) -> Self
+.with_params(BTreeMap<String, String>) -> Self
+
+// Accessors
+.id() -> &InvariantId
+.kind() -> &K
+.scope() -> &Scope
+.severity() -> Severity
+.param(key) -> Option<&str>
+.require_param(key) -> Result<&str, _>
+.has_param(key) -> bool
+```
+
+### `InvariantId`
+
+```rust
+InvariantId::new(value: &str) -> Result<Self, _>  // [a-zA-Z0-9_-] only
+.as_str() -> &str
+```
+
+### `Scope`
+
+```rust
+Scope::Dataset
+Scope::Column { name: String }
+Scope::dataset() -> Self
+Scope::column(name: impl Into<String>) -> Self
+```
+
+### `Severity`
+
+```rust
+Severity::Error  // default
+Severity::Warn
+Severity::Info
+.is_error() -> bool
+.is_warn() -> bool
+.is_info() -> bool
+.level() -> u8   // Error=2, Warn=1, Info=0
+```
+
+### `Spec<K>`
+
+```rust
+Spec::new() -> Self
+Spec::from_invariants(vec: Vec<Invariant<K>>) -> Self
+.validate() -> Result<(), _>         // check no duplicate IDs
+.push(invariant) -> &mut Self
+.extend(iter) -> &mut Self
+.invariants() -> &[Invariant<K>]
+.find_by_id(id: &InvariantId) -> Option<&Invariant<K>>
+.find_by_str(id: &str) -> Option<&Invariant<K>>
+.len() -> usize
+.is_empty() -> bool
+.iter() -> impl Iterator<Item = &Invariant<K>>
+```
+
+### `RunSpec<E>`
+
+```rust
+RunSpec::new(engine: E) -> Self
+.run(dataset: &E::Dataset, spec: &Spec<E::Kind>) -> ApplicationResult<Report>
+```
+
+### `Report`
+
+```rust
+.failed() -> bool               // true if any Error violation
+.has_errors() -> bool
+.has_warnings() -> bool
+.violations() -> &[Violation]
+.errors() -> impl Iterator<Item = &Violation>
+.warnings() -> impl Iterator<Item = &Violation>
+.error_count() -> usize
+.warn_count() -> usize
+.info_count() -> usize
+.metrics() -> &ReportMetrics     // { total_invariants, violations, execution_time_ms }
+.len() -> usize
+.is_empty() -> bool
+.iter() -> impl Iterator<Item = &Violation>
+```
+
+### `Violation`
+
+```rust
+.invariant_id() -> &InvariantId
+.severity() -> Severity
+.scope() -> &Scope
+.reason() -> &str
+.metrics() -> &[Metric]          // e.g. { name: "null_count", value: 3 }
+.examples() -> &[String]
+.has_metrics() -> bool
+.has_examples() -> bool
+```
+
+### YAML loading (`yaml` feature)
+
+```rust
+use invars::interface::yaml::spec_from_str;
+use invars::interface::yaml::load_spec_from_path;
+
+spec_from_str(yaml: &str) -> Result<Spec<PolarsKind>, YamlError>
+load_spec_from_path(path: &Path) -> Result<Spec<PolarsKind>, YamlError>
+```
+
+### Engine trait
+
+```rust
+pub trait Engine {
+    type Dataset;
+    type Kind;
+    fn execute(&self, dataset: &Self::Dataset, spec: &Spec<Self::Kind>)
+        -> ApplicationResult<Report>;
+}
+```
+
+---
+
+## Python API Reference
+
+```python
+from invars import run, run_file, Report, Violation
+
+# Run a YAML spec string against a pandas DataFrame
+run(spec: str, df: pd.DataFrame) -> Report
+
+# Run a YAML spec file against a CSV / Parquet / IPC file path
+run_file(spec_path: str, data_path: str) -> Report
+```
+
+### `Report`
+
+```python
+report.total_invariants   # int
+report.violations_count   # int
+report.execution_time_ms  # int
+report.violations         # list[Violation]
+report.passed() -> bool
+report.failed() -> bool
+report.to_dict() -> dict
+```
+
+### `Violation`
+
+```python
+v.invariant_id  # str
+v.severity      # str: "error" | "warn" | "info"
+v.reason        # str
+v.column        # str | None
+v.to_dict() -> dict
+```
+
+---
+
+## CLI Reference
+
+```
+invars run [OPTIONS]
+
+OPTIONS:
+  --spec <PATH>                Path to YAML spec file
+  --data <PATH>                Path to data file (CSV, Parquet, IPC/Arrow)
+  --format <text|json>         Output format (default: text)
+  --fail-on-violations <bool>  Exit code 1 on violations (default: true)
+```
+
+---
+
+## Architecture
+
+```
+crates/
+├── invars/            # Core library
+│   └── src/
+│       ├── domain/           # Invariant, Spec, Report, Violation, Scope, Severity
+│       ├── application/      # RunSpec use case, Engine trait
+│       ├── infrastructure/   # EnginePolarsDataFrame + 33 check implementations
+│       └── interface/        # YAML loader (DTOs + mapper)
+├── invars-cli/        # CLI binary (clap + text/json output)
+└── invars-py/         # Python bindings via PyO3 + maturin
+```
+
+The core domain is engine-agnostic. To implement a custom engine:
+
+```rust
+use invars::application::engine::Engine;
+
+struct MyEngine;
+
+impl Engine for MyEngine {
+    type Dataset = MyData;
+    type Kind = PolarsKind;
+
+    fn execute(&self, dataset: &MyData, spec: &Spec<PolarsKind>)
+        -> ApplicationResult<Report> {
+        // custom execution logic
+    }
+}
+```
