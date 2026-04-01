@@ -15,7 +15,7 @@ name = "invr"
 path = "src/main.rs"
 
 [dependencies]
-invars = { path = "../invr", features = ["polars"] }
+invr = { path = "../invr", features = ["polars"] }
 polars = { version = "0.53", features = ["lazy", "csv", "parquet", "ipc"] }
 clap = { version = "4", features = ["derive"] }
 serde = { version = "1", features = ["derive"] }

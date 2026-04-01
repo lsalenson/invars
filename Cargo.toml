@@ -5,7 +5,7 @@ members = ["crates/invr", "crates/invr-cli", "crates/invr-py"]
 [workspace.package]
 edition = "2024"
 license = "Apache-2.0"
-repository = "https://github.com/lsalenson/invars"
+repository = "https://github.com/lsalenson/invr"
 authors = ["Léo Salenson <leo.salenson@outlook.fr>"]
 description = "Declarative data validation engine using invariants executed on Polars DataFrames."
 keywords = ["data-validation", "invariants", "polars", "data-quality", "data"]

@@ -13,7 +13,7 @@ name = "invr_core"
 crate-type = ["cdylib"]
 
 [dependencies]
-invars = { path = "../invr", features = ["polars"] }
+invr = { path = "../invr", features = ["polars"] }
 polars = { version = "0.53", features = ["lazy", "csv", "parquet", "ipc", "is_in", "abs", "strings", "diff"] }
 pyo3 = { version = "0.23", features = ["extension-module"] }
 

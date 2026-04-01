@@ -1,11 +1,11 @@
-# invars
+# invr
 
 > Declarative data validation engine for Rust. Define invariants (validation rules) and evaluate them against datasets using a typed execution engine.
 
-- **Rust crate**: `invars` on crates.io — `cargo add invars --features polars,yaml`
-- **Python package**: `invars` on PyPI — `pip install invars`
-- **Repository**: https://github.com/lsalenson/invars
-- **Docs (Rust)**: https://docs.rs/invars
+- **Rust crate**: `invr` on crates.io — `cargo add invr --features polars,yaml`
+- **Python package**: `invr` on PyPI — `pip install invr`
+- **Repository**: https://github.com/lsalenson/invr
+- **Docs (Rust)**: https://docs.rs/invr
 - **License**: Apache-2.0
 
 ---

@@ -1234,8 +1234,8 @@ dependencies = [
 ]
 
 [[package]]
-name = "invars"
-version = "0.2.0"
+name = "invr"
+version = "0.2.1"
 dependencies = [
  "chrono",
  "polars",
@@ -1245,21 +1245,21 @@ dependencies = [
 ]
 
 [[package]]
-name = "invars-cli"
+name = "invr-cli"
 version = "0.1.0"
 dependencies = [
  "clap",
- "invars",
+ "invr",
  "polars",
  "serde",
  "serde_json",
 ]
 
 [[package]]
-name = "invars-py"
+name = "invr-py"
 version = "0.1.0"
 dependencies = [
- "invars",
+ "invr",
  "polars",
  "pyo3",
 ]
