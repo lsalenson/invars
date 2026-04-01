@@ -3,8 +3,8 @@ requires = ["maturin>=1.0,<2.0"]
 build-backend = "maturin"
 
 [project]
-name = "invars"
-version = "0.1.0"
+name = "invr"
+version = "0.2.1"
 description = "Declarative data validation for pandas DataFrames — powered by Rust."
 readme = "README.md"
 license = { text = "Apache-2.0" }
@@ -26,6 +26,6 @@ dev = ["maturin", "pytest", "pandas", "pyarrow"]
 
 [tool.maturin]
 features = ["pyo3/extension-module"]
-module-name = "invars.invars_core"
+module-name = "invr.invr_core"
 python-source = "python"
-manifest-path = "crates/invars-py/Cargo.toml"
+manifest-path = "crates/invr-py/Cargo.toml"
