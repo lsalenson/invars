@@ -30,7 +30,7 @@ invr = { version = "0.2", features = ["polars", "yaml"] }
 ### Programmatic spec
 
 ```rust
-use invars::prelude::*;
+use invr::prelude::*;
 use polars::prelude::*;
 
 let df = df![
@@ -42,7 +42,7 @@ let spec = Spec::from_invariants(vec![
     Invariant::new(
         InvariantId::new("age_not_null")?,
         PolarsKind::NotNull,
-        Scope::Column { name: "age".into() },
+        Scope::column("age"),
     ),
     Invariant::new(
         InvariantId::new("row_count_min")?,
@@ -89,7 +89,7 @@ invariants:
 ```
 
 ```rust
-use invars::prelude::*;
+use invr::prelude::*;
 
 let yaml = std::fs::read_to_string("spec.yaml")?;
 let spec = spec_from_str(&yaml)?;
@@ -113,6 +113,47 @@ let report = runner.run(&df, &spec)?;
 | Statistical  | `outlier_ratio_max`, `percentile_between` |
 | Relational   | `foreign_key`, `column_equals`, `conditional_not_null` |
 | Custom       | `custom_expr` |
+
+### Parameters reference
+
+All param values are strings. Numeric values are passed as string literals (e.g. `"42"`, `"0.05"`).
+
+| Kind | Scope | Required params |
+|------|-------|-----------------|
+| `not_null` | Column | — |
+| `null_ratio_max` | Column | `max_ratio` — float 0.0–1.0 |
+| `unique` | Column | — |
+| `composite_unique` | Dataset | `columns` — comma-sep column list e.g. `"a,b"` |
+| `duplicate_ratio_max` | Column | `max_ratio` — float 0.0–1.0 |
+| `row_count_min` | Dataset | `min` |
+| `row_count_max` | Dataset | `max` |
+| `row_count_between` | Dataset | `min`, `max` |
+| `column_exists` | Column | — |
+| `column_missing` | Column | — |
+| `dtype_is` | Column | `dtype` — e.g. `"Int64"`, `"Utf8"`, `"Float64"` |
+| `schema_equals` | Dataset | `schema` — comma-sep `col:dtype` pairs e.g. `"a:Int64,b:Utf8"` |
+| `value_min` | Column | `min` |
+| `value_max` | Column | `max` |
+| `value_between` | Column | `min`, `max` |
+| `mean_between` | Column | `min`, `max` |
+| `stddev_max` | Column | `max` |
+| `sum_between` | Column | `min`, `max` |
+| `date_between` | Column | `start`, `end` — ISO 8601 e.g. `"2024-01-01"` |
+| `no_future_dates` | Column | — |
+| `monotonic_increasing` | Column | — |
+| `no_gaps_in_sequence` | Column | — |
+| `regex_match` | Column | `pattern` — regex string |
+| `string_length_min` | Column | `min` |
+| `string_length_max` | Column | `max` |
+| `string_length_between` | Column | `min`, `max` |
+| `allowed_values` | Column | `values` — comma-sep list e.g. `"A,B,C"` |
+| `forbidden_values` | Column | `values` — comma-sep list |
+| `outlier_ratio_max` | Column | `z` — Z-score threshold, `max_ratio` — float 0.0–1.0 |
+| `percentile_between` | Column | `p` — percentile 0.0–1.0, `min`, `max` |
+| `foreign_key` | Column | `allowed_values` — comma-sep valid FK values |
+| `column_equals` | Column | `other_column` — column name to compare against |
+| `conditional_not_null` | Column | `condition_column`, `condition_value` |
+| `custom_expr` | Column | `column` — column name |
 
 ## Report API
 

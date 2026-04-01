@@ -94,3 +94,4 @@ Desktop.ini
 *.gcno
 *.gcda
 lcov.info
+.pypirc
